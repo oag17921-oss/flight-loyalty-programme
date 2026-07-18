@@ -1,5 +1,6 @@
 package com.loyalty;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
@@ -74,10 +75,14 @@ public class LoyaltyApp extends AbstractVerticle {
                         result.totalPoints, result.fxRate, result.warnings
                     );
 
-                    ctx.response()
-                        .putHeader("Content-Type", "application/json")
-                        .setStatusCode(200)
-                        .end(mapper.writeValueAsString(response));
+                    try {
+                        ctx.response()
+                            .putHeader("Content-Type", "application/json")
+                            .setStatusCode(200)
+                            .end(mapper.writeValueAsString(response));
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
                 })
                 .onFailure(t -> {
                     ctx.response()
