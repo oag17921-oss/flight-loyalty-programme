@@ -46,13 +46,45 @@ You'll get back:
 - Reject any booking with 0 or less fare
 - If a promo is about to expire, warn the user
 
-### Testing
+### How to Run Tests
 
-Run the tests with Maven or Gradle. Tests use JUnit 5 and check everything:
+Go into the `backend` folder and run the tests. Tests are in two files:
+
+**Unit tests** (fast, no server needed):
+```bash
+cd backend
+mvn test -Dtest=PointsCalculatorTest
+```
+
+**Integration tests** (spins up a real server with fake services):
+```bash
+mvn test -Dtest=PointsQuoteServiceTest
+```
+
+**Run all tests**:
+```bash
+mvn test
+```
+
+**Check test coverage** (must be at least 80%):
+```bash
+mvn clean test
+```
+
+After tests run, look at the coverage report:
+```
+backend/target/site/jacoco/index.html
+```
+
+### What the Tests Check
+
 - Does the calculation work right?
-- Does it handle offline network?
+- Does it handle when services go down?
 - Does it reject bad data?
-- Are there enough tests (at least 80% of the code)?
+- Do tier bonuses work?
+- Does the promo expiry warning show up?
+- Does it cap points at 50,000?
+- Does the FX service work?
 
 ## Mobile Apps
 
