@@ -30,18 +30,14 @@ public class PointsCalculator {
                                    Integer promoPercent, Long promoExpiry) {
         List<String> warnings = new ArrayList<>();
 
-        // Base points after FX
         int basePoints = (int) (fareAmount * fxRate);
 
-        // Tier bonus
         int tierBonus = calculateTierBonus(basePoints, tier);
 
-        // Promo bonus
         int promoBonus = 0;
         if (promoPercent != null) {
             promoBonus = (int) ((basePoints + tierBonus) * promoPercent / 100.0);
 
-            // Check if expiry is soon
             if (promoExpiry != null) {
                 long now = System.currentTimeMillis();
                 if (promoExpiry - now < EXPIRY_WARNING_MS) {
@@ -49,8 +45,7 @@ public class PointsCalculator {
                 }
             }
         }
-
-        // Total and cap
+        
         int total = basePoints + tierBonus + promoBonus;
         if (total > POINTS_CAP) {
             total = POINTS_CAP;

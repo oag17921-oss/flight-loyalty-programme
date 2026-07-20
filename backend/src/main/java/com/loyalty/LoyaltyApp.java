@@ -49,7 +49,6 @@ public class LoyaltyApp extends AbstractVerticle {
                         return promoService.getPromo(req.promoCode)
                             .map(promo -> new Object[]{fxRate, promo.bonusPercent, promo.expiresAt})
                             .recover(t -> {
-                                // Promo failed, continue without it
                                 return io.vertx.core.Future.succeededFuture(
                                     new Object[]{fxRate, null, null}
                                 );

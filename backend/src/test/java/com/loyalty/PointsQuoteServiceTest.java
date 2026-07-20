@@ -23,7 +23,6 @@ public class PointsQuoteServiceTest {
 
     @BeforeEach
     public void setup(Vertx vertx, VertxTestContext ctx) {
-        // Start WireMock servers
         fxServer = new WireMockServer(8081);
         promoServer = new WireMockServer(8082);
         fxServer.start();
@@ -31,7 +30,6 @@ public class PointsQuoteServiceTest {
 
         client = WebClient.create(vertx);
 
-        // Find a free port for the main server
         serverPort = findFreePort();
 
         var config = new JsonObject()
@@ -109,8 +107,7 @@ public class PointsQuoteServiceTest {
     public void testPromoExpiryWarning(VertxTestContext ctx) {
         fxServer.stubFor(get(urlEqualTo("/?currency=USD"))
             .willReturn(okJson("{\"rate\": 3.67}")));
-
-        // Promo expires in 3 days (within warning period)
+        //Todo: review the requirements
         long expiryTime = System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000;
         promoServer.stubFor(get(urlEqualTo("/?code=EXPIRE_SOON"))
             .willReturn(okJson("{\"bonusPercent\": 10, \"expiresAt\": " + expiryTime + "}")));

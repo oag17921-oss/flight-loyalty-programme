@@ -1,18 +1,16 @@
 # Flight Loyalty Programme
 
-A loyalty points system for flight bookings with backend API, Android app, and iOS app.
+This project is a flight loyalty system with a Java backend and Android/iOS apps. The backend works out how many loyalty points a customer earns when they book a flight.
 
-## What This Does
+## Backend
 
-When someone books a flight, the app calculates loyalty points earned based on fare amount, customer tier, and promo codes.
-
-## Backend (Java + Vert.x)
-
-HTTP service for points calculation.
+Built using Java and Vert.x.
 
 ### API
 
-Send a POST request to `/v1/points/quote`:
+**POST** `/v1/points/quote`
+
+Request:
 
 ```json
 {
@@ -37,72 +35,79 @@ Response:
 }
 ```
 
-### Calculation Rules
+### How the points are worked out
 
-- Convert fare to base points using exchange rate
-- Apply tier bonus (SILVER: 15%, GOLD: 30%, PLATINUM: 50%)
-- Apply promo bonuses for valid codes
-- Cap total at 50,000 points
-- Reject fares of 0 or less
-- Warn if promo expires soon
+- The fare is converted into loyalty points.
+- Extra points are added depending on the customer's tier.
+- Valid promo codes add bonus points.
+- The maximum number of points is 50,000.
+- Fares of 0 or less are rejected.
+- A warning is returned if a promo code is about to expire.
 
-### Running Tests
+## Running the tests
 
-Navigate to `backend` folder:
+Run all tests:
 
-**Unit tests:**
-```bash
-cd backend
-mvn test -Dtest=PointsCalculatorTest
-```
-
-**Integration tests:**
-```bash
-cd backend
-mvn test -Dtest=PointsQuoteServiceTest
-```
-
-**All tests:**
 ```bash
 cd backend
 mvn test
 ```
 
-**Coverage report:**
+Run the unit tests:
+
 ```bash
-cd backend
+mvn test -Dtest=PointsCalculatorTest
+```
+
+Run the integration tests:
+
+```bash
+mvn test -Dtest=PointsQuoteServiceTest
+```
+
+Generate a coverage report:
+
+```bash
 mvn clean test
 ```
 
-View coverage at: `backend/target/site/jacoco/index.html`
+The report is saved in:
 
-## Mobile Apps
+```
+backend/target/site/jacoco/index.html
+```
 
-### Android (Kotlin)
+## Android
 
-Login screen with:
+Written in Kotlin.
+
+Features:
+
 - Email and password validation
-- Account lockout after 3 failed attempts
+- Account lockout after three failed login attempts
 - Offline support
-- "Remember me" token persistence
+- Remember me
 - Error messages
 
-**Files:**
-- `LoginViewModel.kt` - business logic
-- `LoginScreen.kt` - UI
-- `AuthRepository.kt` - API communication
-- `NetworkMonitor.kt` - connectivity detection
+Main files:
 
-### iOS (Swift)
+- LoginViewModel.kt`
+- LoginScreen.kt`
+- AuthRepository.kt`
+- NetworkMonitor.kt`
 
-Same functionality as Android.
+## iOS
 
-**Files:**
-- `LoginViewModel.swift`
-- `LoginView.swift`
-- `AuthService.swift`
-- `NetworkMonitor.swift`
+Written in Swift with the same login features as the Android app.
 
-## Getting Started
+Main files:
 
-Clone the repo and refer to each component's folder for setup instructions.
+- LoginViewModel.swift`
+- LoginView.swift`
+- AuthService.swift`
+- NetworkMonitor.swift`
+
+## Getting started
+
+Clone the repository and open the backend, Android or iOS project. Each folder contains the files needed to build and run that part of the application.
+
