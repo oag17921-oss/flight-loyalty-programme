@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PointsCalculator {
     private static final int POINTS_CAP = 50000;
-    private static final long EXPIRY_WARNING_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+    private static final long EXPIRY_WARNING_MS = 7 * 24 * 60 * 60 * 1000; // TODO: review
 
     public static class Result {
         public int basePoints;

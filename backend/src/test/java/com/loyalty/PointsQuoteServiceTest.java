@@ -49,7 +49,6 @@ public class PointsQuoteServiceTest {
 
     @Test
     public void testBasicPointsCalculation(VertxTestContext ctx) {
-        // Mock FX rate
         fxServer.stubFor(get(urlEqualTo("/?currency=USD"))
             .willReturn(okJson("{\"rate\": 3.67}")));
 
@@ -66,7 +65,7 @@ public class PointsQuoteServiceTest {
                     assertThat(ar.succeeded()).isTrue();
                     var response = ar.result().bodyAsJsonObject();
 
-                    assertThat(response.getInteger("basePoints")).isEqualTo(4531); // 1234.50 * 3.67
+                    assertThat(response.getInteger("basePoints")).isEqualTo(4531);
                     assertThat(response.getInteger("tierBonus")).isGreaterThan(0);
                     assertThat(response.getInteger("totalPoints")).isGreaterThan(0);
                 });
@@ -141,7 +140,7 @@ public class PointsQuoteServiceTest {
             .willReturn(okJson("{\"bonusPercent\": 100, \"expiresAt\": " + 
                 (System.currentTimeMillis() + 30 * 24 * 60 * 60 * 1000) + "}")));
 
-        // This should hit the 50,000 cap
+        //TODO: review
         var request = new JsonObject()
             .put("fareAmount", 200.00)
             .put("currency", "USD")
@@ -226,7 +225,7 @@ public class PointsQuoteServiceTest {
                     int base = response.getInteger("basePoints");
                     int tier = response.getInteger("tierBonus");
 
-                    // PLATINUM is 50% bonus
+                    // TODO: Review the requirements
                     assertThat(tier).isEqualTo((int)(base * 0.50));
                 });
                 ctx.completeNow();

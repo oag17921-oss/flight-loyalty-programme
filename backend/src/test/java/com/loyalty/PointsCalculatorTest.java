@@ -18,7 +18,7 @@ public class PointsCalculatorTest {
     public void testSilverTier() {
         var result = PointsCalculator.calculate(1000.0, 1.0, "SILVER", null, null);
 
-        assertThat(result.tierBonus).isEqualTo(150); // 1000 * 0.15
+        assertThat(result.tierBonus).isEqualTo(150);
         assertThat(result.totalPoints).isEqualTo(1150);
     }
 
@@ -26,7 +26,7 @@ public class PointsCalculatorTest {
     public void testGoldTier() {
         var result = PointsCalculator.calculate(1000.0, 1.0, "GOLD", null, null);
 
-        assertThat(result.tierBonus).isEqualTo(300); // 1000 * 0.30
+        assertThat(result.tierBonus).isEqualTo(300);
         assertThat(result.totalPoints).isEqualTo(1300);
     }
 
@@ -34,7 +34,7 @@ public class PointsCalculatorTest {
     public void testPlatinumTier() {
         var result = PointsCalculator.calculate(1000.0, 1.0, "PLATINUM", null, null);
 
-        assertThat(result.tierBonus).isEqualTo(500); // 1000 * 0.50
+        assertThat(result.tierBonus).isEqualTo(500);
         assertThat(result.totalPoints).isEqualTo(1500);
     }
 
@@ -43,7 +43,7 @@ public class PointsCalculatorTest {
         var result = PointsCalculator.calculate(1000.0, 1.0, "SILVER", 25,
                 System.currentTimeMillis() + 30 * 24 * 60 * 60 * 1000);
 
-        int expected = (int) ((1000 + 150) * 0.25); // (base + tier) * promo%
+        int expected = (int) ((1000 + 150) * 0.25);
         assertThat(result.promoBonus).isEqualTo(expected);
     }
 
@@ -58,7 +58,7 @@ public class PointsCalculatorTest {
 
     @Test
     public void testPromoExpirySoon() {
-        long expiryTime = System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000; // 3 days
+        long expiryTime = System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000;
         var result = PointsCalculator.calculate(1000.0, 1.0, "NONE", 10, expiryTime);
 
         assertThat(result.warnings).contains("PROMO_EXPIRES_SOON");
